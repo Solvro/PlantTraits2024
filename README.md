@@ -69,7 +69,7 @@ Stwórzcie plik .env z takimi zmiennymi jak są w pliku src/utils.py
         `-- test_dataset.py
 
 ## Testowanie
-    ```
-    pytest test
-    ```
+```
+pytest test
+```
 

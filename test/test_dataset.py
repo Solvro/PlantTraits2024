@@ -7,10 +7,10 @@ def test_train_dataset():
     train_dataloader = DataLoader(train_dataset, batch_size=1, shuffle=True)
 
     img, modisvod_row, soil_row, worldclimbio_row, std_row, y = next(iter(train_dataloader))
-    assert len(img.shape) == 3
+    assert len(img.shape) == 4
     assert len(modisvod_row.shape) == 2
     assert len(soil_row.shape) == 2
     assert len(worldclimbio_row.shape) == 2
     assert len(std_row.shape) == 2
     assert len(y.shape) == 2
-    assert len(y) == len(TARGET_COLUMN_NAMES)
+    assert y.shape[1] == len(TARGET_COLUMN_NAMES)

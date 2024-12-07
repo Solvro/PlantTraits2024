@@ -68,5 +68,8 @@ Stwórzcie plik .env z takimi zmiennymi jak są w pliku src/utils.py
         |-- __init__.py
         `-- test_dataset.py
 
-
+## Testowanie
+```
+    pytest test
+```
 

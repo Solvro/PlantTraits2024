@@ -16,8 +16,6 @@ https://www.kaggle.com/competitions/planttraits2024
 
 - [Dataset](https://www.kaggle.com/competitions/planttraits2024/data)
 
-Stwórzcie plik .env z takimi zmiennymi jak są w pliku src/utils.py
-
 ## Instalacja środowiska
 
 1. Create new virtual environment:

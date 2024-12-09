@@ -12,19 +12,19 @@ import pandas as pd
 
 class PlantTraitsDataset(Dataset):
 
-    def __init__(self, train : bool, # add here more arguments if needed
+    def __init__(self, is_train : bool, # add here more arguments if needed
                  ):
         super().__init__()
-        self.train = train 
-        self.img_preprocess = ImagePreprocessing(train)
-        self.modis_vod_preprocess = ModisVodPreprocessing(train)
-        self.soil_preprocess = SoilPreprocessing(train)
-        self.worldclimbio_preprocess = WorldClimBioPreprocessing(train)
-        self.std_preprocess = StdPreprocessing(train)
-        self.Y = pd.read_csv(TRAIN_CSV_FILE if train else TEST_CSV_FILE, usecols=TARGET_COLUMN_NAMES)
+        self.is_train = is_train 
+        self.img_preprocess = ImagePreprocessing(self.is_train)
+        self.modis_vod_preprocess = ModisVodPreprocessing(self.is_train)
+        self.soil_preprocess = SoilPreprocessing(self.is_train)
+        self.worldclimbio_preprocess = WorldClimBioPreprocessing(self.is_train)
+        self.std_preprocess = StdPreprocessing(self.is_train)
+        self.Y = pd.read_csv(TRAIN_CSV_FILE, usecols=TARGET_COLUMN_NAMES) if self.is_train else None 
 
     def __len__(self):
-        return len(os.listdir(TRAIN_IMAGES_FOLDER if self.train else TEST_IMAGES_FOLDER))
+        return len(os.listdir(TRAIN_IMAGES_FOLDER if self.is_train else TEST_IMAGES_FOLDER))
     
     def __getitem__(self, idx):
         img = self.img_preprocess.transform(idx)
@@ -33,6 +33,6 @@ class PlantTraitsDataset(Dataset):
         worldclimbio_row = self.worldclimbio_preprocess.transform(idx)
         std_row = self.std_preprocess.transform(idx)
 
-        y = torch.tensor(self.Y.iloc[idx].values)
+        y = torch.tensor(self.Y.iloc[idx].values) if self.is_train else torch.empty(1) 
 
         return img, modisvod_row, soil_row, worldclimbio_row, std_row, y

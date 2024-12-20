@@ -19,7 +19,7 @@ dependencies = [
     "wandb",
     "scikit-image",
     "tensorboard",
-    "python-dotenv==1.0.1"
+    "python-dotenv==1.0.1",
 ]
 
 
@@ -30,6 +30,12 @@ jupyter = [
     "matplotlib ~= 3.7",
     "seaborn ~= 0.12",
     "plotly ~= 5.14",
+    "torchsummary==1.5.1",
+    "shorch",
+    "transformers ~= 4.47.1",
+    "evaluate ~= 0.4.3",
+    "transformers[torch]",
+    "datasets[vision]"
 ]
 lint = ["ruff ~= 0.1", "pre-commit ~= 2.20"]
 test = [

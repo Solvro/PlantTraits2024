@@ -179,3 +179,5 @@ pyrightconfig.json
 data/*
 models/*
 notebooks/wandb
+presentations/*
+notebooks/lightning_logs/

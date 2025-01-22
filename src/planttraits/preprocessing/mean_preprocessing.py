@@ -2,10 +2,10 @@ import pandas as pd
 import torch
 
 from planttraits.config import TEST_CSV_FILE, TRAIN_CSV_FILE
-from planttraits.utils import DTYPE
+from planttraits.utils import DTYPE, TARGET_COLUMN_NAMES
 
 
-class StdPreprocessing:
+class MeanPreprocessing:
     def __init__(
         self,
         is_train: bool,  # add more parameters if necessary
@@ -24,8 +24,11 @@ class StdPreprocessing:
         pass
 
     def transform(self, row: pd.Series) -> torch.Tensor:
-        # row = ... # filter on columns
+        mean = torch.tensor(row[TARGET_COLUMN_NAMES].values, dtype=DTYPE)
 
         # some transformations on a single row of data if necessary
 
-        return torch.tensor(row.values, dtype=DTYPE)
+        # even if you decide not to use std, still don't delete the line below
+        std = torch.zeros(len(TARGET_COLUMN_NAMES), dtype=DTYPE)
+        mean = torch.normal(mean, std)
+        return mean, std

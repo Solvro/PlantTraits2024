@@ -13,6 +13,7 @@ class ImagePreprocessing:
         is_train: bool,  # add more parameters if necessary
     ):
         self.imgs_folder = TRAIN_IMAGES_FOLDER if is_train else TEST_IMAGES_FOLDER
+        # do not remove any image path from the list
         self.imgs_paths = os.listdir(self.imgs_folder)
         self.is_train = is_train
         # list of removed sample indexes from imgs_paths (don't delete it nor set to None if not used)
@@ -23,7 +24,6 @@ class ImagePreprocessing:
     def preprocess(self):
         # inner computations like computing means itd if necessary
         # add indexes of removed samples to the list self.drop_idxs
-        # store final version under self.imgs_paths
         pass
 
     def transform(self, idx) -> torch.Tensor:

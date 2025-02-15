@@ -25,7 +25,7 @@ class PlantTraitsDataset(Dataset):
         self.mean_preprocess = MeanPreprocessing(self.is_train)
 
         # Keep all the data
-        self.data = pd.read_csv(TRAIN_CSV_FILE if self.is_train else TEST_CSV_FILE)
+        self.data = pd.read_csv(TRAIN_CSV_FILE if self.is_train else TEST_CSV_FILE, index_col='id')
 
         self.indexes = self.data.index.to_numpy()
         self._adjust_indexes()

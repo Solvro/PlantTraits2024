@@ -14,7 +14,7 @@ class ImagePreprocessing:
     ):
         self.imgs_folder = TRAIN_IMAGES_FOLDER if is_train else TEST_IMAGES_FOLDER
         # do not remove any image path from the list
-        self.imgs_paths = os.listdir(self.imgs_folder)
+        self.imgs_paths = {int(p.split('.')[0]): p for p in os.listdir(self.imgs_folder)}
         self.is_train = is_train
         # list of removed sample indexes from imgs_paths (don't delete it nor set to None if not used)
         self.drop_idxs = []

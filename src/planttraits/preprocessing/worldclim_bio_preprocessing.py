@@ -10,7 +10,7 @@ class WorldClimBioPreprocessing:
         self,
         is_train: bool,  # add more parameters if necessary
     ):
-        self.csv_file = pd.read_csv(TRAIN_CSV_FILE if is_train else TEST_CSV_FILE)
+        self.csv_file = pd.read_csv(TRAIN_CSV_FILE if is_train else TEST_CSV_FILE, index_col='id')
         self.is_train = is_train
         # list of removed sample indexes (don't delete it nor set to None if not used)
         self.drop_idxs = []

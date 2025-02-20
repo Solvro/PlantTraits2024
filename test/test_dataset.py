@@ -37,3 +37,11 @@ def test_test_dataset_output_shapes():
     *_, std, y = next(iter(test_dataloader))
     assert torch.allclose(y[0], torch.tensor([0.0]))
     assert torch.allclose(std[0], torch.tensor([0.0]))
+
+
+def test_works_with_loader():
+    train_dataset = PlantTraitsDataset(is_train=True)
+    train_dataloader = DataLoader(train_dataset, batch_size=16, shuffle=True)
+
+    *_, std, y = next(iter(train_dataloader))
+    *_, std, y = next(iter(train_dataloader))

@@ -27,10 +27,10 @@ class PlantTraitsDataset(Dataset):
         # Keep all the data
         self.data = pd.read_csv(TRAIN_CSV_FILE if self.is_train else TEST_CSV_FILE, index_col='id')
 
-        self.indexes = self.data.index.to_numpy()
         self._adjust_indexes()
 
     def _adjust_indexes(self):
+        self.indexes = self.data.index.to_numpy()
         self.drop_idxs = []
         for transform in [
             self.img_preprocess,
@@ -42,6 +42,10 @@ class PlantTraitsDataset(Dataset):
             self.drop_idxs.extend(transform.drop_idxs)
         self.indexes = np.setdiff1d(self.indexes, self.drop_idxs)
 
+    def set_data(self, data):
+        self.data = data
+        self._adjust_indexes()
+
     def __len__(self):
         return len(self.indexes)
 
@@ -52,8 +56,6 @@ class PlantTraitsDataset(Dataset):
         modisvod_row = self.modis_vod_preprocess.transform(row)
         soil_row = self.soil_preprocess.transform(row)
         worldclimbio_row = self.worldclimbio_preprocess.transform(row)
-        mean_row, std_row = (
-            self.mean_preprocess.transform(row) if self.is_train else (torch.zeros(1), torch.zeros(1))
-        )  # mean_row, std_row ??
+        mean_row, std_row = self.mean_preprocess.transform(row) if self.is_train else (torch.zeros(1), torch.zeros(1))
 
         return img, modisvod_row, soil_row, worldclimbio_row, std_row, mean_row

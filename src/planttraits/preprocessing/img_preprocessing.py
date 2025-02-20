@@ -29,6 +29,8 @@ class ImagePreprocessing:
     def transform(self, idx) -> torch.Tensor:
         img_path = self.imgs_folder / self.imgs_paths[idx]
         image = read_image(img_path)
+        # quick rescaling for testing purposes
+        image = image / 255.0
 
         # here perform some transformations on a single image
         # you can use functions from here: https://pytorch.org/vision/0.11/transforms.html

@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="Black">
-    <option name="sdkName" value="PlantTraits2024" />
+    <option name="enabledOnReformat" value="true" />
+    <option name="pathToExecutable" value="C:\Users\Jacob\anaconda3\Scripts\black.exe" />
+    <option name="sdkName" value="PlantTraits2024 (2)" />
   </component>
   <component name="ProjectRootManager" version="2" project-jdk-name="PlantTraits2024 (2)" project-jdk-type="Python SDK" />
 </project>

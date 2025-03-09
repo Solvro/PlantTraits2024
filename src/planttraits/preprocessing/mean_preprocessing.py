@@ -28,7 +28,7 @@ class MeanPreprocessing:
         Other cleansing operations, which don't rely on "learning parameters", only on transforming
         raw data to concise format.
         """
-        pass
+        return self
 
     def _fit_preprocessing(
         self,
@@ -43,24 +43,21 @@ class MeanPreprocessing:
         """
         pass
 
-    def _transform_preprocessing(self, row):  # Wspólny dla testowych i treningowych
+    def transform_preprocessing(self, data):  # Wspólny dla testowych i treningowych
         """
         The use of common transformations, as well as the use of previously learned parameters
          to process a single line (sample).
 
-        Perform type conversion (e.g., convert values from Pandas Series to floating-point numbers).
+        Perform type conversion (e.g., converrowt values from Pandas Series to floating-point numbers).
         Normalize or scale the data using parameters learned earlier on the training set.
         Extract or calculate additional features from existing data.
         Apply possible augmentation operations (if working with images and want to introduce
-         random transformations for the training data).
+        random transformations for the training data).
         """
         pass
 
-    def transform(self, row: pd.Series) -> torch.Tensor:
+    def select(self, row: pd.Series) -> torch.Tensor:
         mean = torch.tensor(row[TARGET_COLUMN_NAMES].values, dtype=DTYPE)
-        self._transform_preprocessing(row)
-        # some transformations on a single row of data if necessary
-
         # even if you decide not to use std, still don't delete the line below
         std = torch.tensor(np.zeros_like(row[STD_COLUMN_NAMES].values), dtype=DTYPE)
         mean = torch.normal(mean, std)

@@ -29,7 +29,7 @@ class ModisVodPreprocessing:
         Other cleansing operations, which don't rely on "learning parameters", only on transforming
         raw data to concise format.
         """
-        pass
+        return self
 
     def _fit_preprocessing(
         self,
@@ -44,7 +44,7 @@ class ModisVodPreprocessing:
         """
         pass
 
-    def _transform_preprocessing(self, row):  # Wspólny dla testowych i treningowych
+    def transform_preprocessing(self, data):  # Wspólny dla testowych i treningowych
         """
         The use of common transformations, as well as the use of previously learned parameters
          to process a single line (sample).
@@ -57,8 +57,6 @@ class ModisVodPreprocessing:
         """
         pass
 
-    def transform(self, row: pd.Series) -> torch.Tensor:
+    def select(self, row: pd.Series) -> torch.Tensor:
         # row = ... # filter on columns
-        self._transform_preprocessing(row)
-        # some transformations on a single row of data if necessary
         return torch.tensor(row.values, dtype=DTYPE)

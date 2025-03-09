@@ -1,4 +1,3 @@
-import numpy as np
 import pandas as pd
 import torch
 
@@ -45,35 +44,25 @@ class PlantTraitsDataset(Dataset):
                 if key == 'img':
                     preprocessor.prepare_data(self.imgs_folder)
                 else:
-                    preprocessor.prepare_data(
+                    preprocessor.prepare_data(self.data).transform_preprocessing(
                         self.data
                     )  # Tutaj też przekazuje data, ale to będzie typowo test i tylko prepare
-
-        # Keep all the data
-        self._adjust_indexes()
 
     def return_preprocessors(self):
         return self._preprocessors
 
-    def _adjust_indexes(self):
-        self.indexes = self.data.index.to_numpy()
-        self.drop_idxs = []
-        for transform in self._preprocessors.values():
-            self.drop_idxs.extend(transform.drop_idxs)
-        self.indexes = np.setdiff1d(self.indexes, self.drop_idxs)
-
     def __len__(self):
-        return len(self.indexes)
+        return len(self.data)
 
     def __getitem__(self, idx):
-        true_idx = self.indexes[idx]
+        true_idx = self.data.index[idx]
         row = self.data.loc[true_idx]
         img = self._preprocessors['img'].transform(true_idx)
-        modisvod_row = self._preprocessors['modis_vod'].transform(row)
-        soil_row = self._preprocessors['soil'].transform(row)
-        worldclimbio_row = self._preprocessors['worldclimbio'].transform(row)
+        modisvod_row = self._preprocessors['modis_vod'].select(row)
+        soil_row = self._preprocessors['soil'].select(row)
+        worldclimbio_row = self._preprocessors['worldclimbio'].select(row)
         mean_row, std_row = (
-            self._preprocessors['mean'].transform(row) if self.is_train else (torch.zeros(1), torch.zeros(1))
+            self._preprocessors['mean'].select(row) if self.is_train else (torch.zeros(1), torch.zeros(1))
         )
 
         return img, modisvod_row, soil_row, worldclimbio_row, std_row, mean_row

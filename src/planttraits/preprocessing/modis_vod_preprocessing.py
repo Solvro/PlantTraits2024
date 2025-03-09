@@ -15,8 +15,7 @@ class ModisVodPreprocessing:
         # filter only necessary columns
         # Nie potrzebujemy warunku is_train ani tego argumentu,
         # skoro tworzymy tylko raz te instancje preprocessingów.
-        self.prepare_data()  # To też dla testowych z zewnątrz
-        self._fit_preprocessing()
+        self.prepare_data(self.csv_file)._fit_preprocessing(self.csv_file).transform_preprocessing(self.csv_file)
 
     def prepare_data(self, data=None):
         """
@@ -31,9 +30,7 @@ class ModisVodPreprocessing:
         """
         return self
 
-    def _fit_preprocessing(
-        self,
-    ):  # Tylko treningowe, zastosowanie fit i scalera i wyliczanie wartosci tylko raz
+    def _fit_preprocessing(self, data):  # Tylko treningowe, zastosowanie fit i scalera i wyliczanie wartosci tylko raz
         """
         Calculate parameters (e.g., mean, variance, coding maps, PCA matrix, etc.)
         that are needed for subsequent data transformation.
@@ -42,7 +39,7 @@ class ModisVodPreprocessing:
         Teaching coder for categorical variables. (we don't have any I think)
         Computation of reduction dimensionality parameters which are learning on data distribution.
         """
-        pass
+        return self
 
     def transform_preprocessing(self, data):  # Wspólny dla testowych i treningowych
         """

@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="1b73e819-7219-4610-b718-62a13daf18cb" name="Changes" comment="Changes in preprocessing classes.">
+      <change afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/profiles_settings.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/notebooks/Test.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/notebooks/Test.ipynb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/notebooks/modis_vod_eda_final.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/notebooks/modis_vod_eda_final.ipynb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/planttraits/datasets/plant_traits_dataset.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/planttraits/datasets/plant_traits_dataset.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/planttraits/preprocessing/modis_vod_preprocessing.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/planttraits/preprocessing/modis_vod_preprocessing.py" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Jupyter Notebook" />
+        <option value="Python Script" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="preprocessing" />
+      </map>
+    </option>
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;lastFilter&quot;: {
+    &quot;state&quot;: &quot;OPEN&quot;,
+    &quot;assignee&quot;: &quot;sonervous7&quot;
+  }
+}</component>
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;https://github.com/Solvro/PlantTraits2024.git&quot;,
+    &quot;accountId&quot;: &quot;b6df205f-7ec2-41fd-80f9-f098ab4be0a8&quot;
+  }
+}</component>
+  <component name="ProblemsViewState">
+    <option name="selectedTabId" value="CurrentFile" />
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 5
+}</component>
+  <component name="ProjectId" id="2qRcjwFuNAkNkUePbyoqveP422c" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Python.test_file_reading.executor": "Run",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "git-widget-placeholder": "feature/modis__vod",
+    "ignore.virus.scanning.warn.message": "true",
+    "last_opened_file_path": "C:/Users/Jacob/anaconda3/Scripts/black.exe",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "settings.editor.selected.configurable": "preferences.sourceCode.Python",
+    "vue.rearranger.settings.migration": "true"
+  }
+}]]></component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="I:\Jacob\Documents\PlantTraits2024\data" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="I:\Jacob\Documents\PlantTraits2024\data" />
+    </key>
+  </component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="bundled-js-predefined-d6986cc7102b-deb605915726-JavaScript-PY-243.22562.180" />
+        <option value="bundled-python-sdk-85c76a3b01b3-9a18a617cbe4-com.jetbrains.pycharm.pro.sharedIndexes.bundled-PY-243.22562.180" />
+      </set>
+    </attachedChunks>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="1b73e819-7219-4610-b718-62a13daf18cb" name="Changes" comment="" />
+      <created>1734628967140</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1734628967140</updated>
+      <workItem from="1734629956111" duration="13000" />
+      <workItem from="1737538161130" duration="1082000" />
+      <workItem from="1737539260493" duration="6968000" />
+      <workItem from="1737599997424" duration="2172000" />
+      <workItem from="1737602200810" duration="36109000" />
+      <workItem from="1740020223831" duration="26586000" />
+      <workItem from="1740500726268" duration="15646000" />
+      <workItem from="1740618797027" duration="535000" />
+      <workItem from="1741117988200" duration="804000" />
+      <workItem from="1741119376085" duration="1421000" />
+      <workItem from="1741120817752" duration="1106000" />
+      <workItem from="1741121955313" duration="3082000" />
+      <workItem from="1741187470958" duration="10647000" />
+      <workItem from="1742150209126" duration="3249000" />
+      <workItem from="1744568123065" duration="1464000" />
+      <workItem from="1747326727027" duration="2654000" />
+      <workItem from="1747331799922" duration="65000" />
+      <workItem from="1747331876650" duration="891000" />
+      <workItem from="1748105308948" duration="4727000" />
+      <workItem from="1748535524048" duration="11332000" />
+    </task>
+    <task id="LOCAL-00001" summary="Changes in preprocessing classes.">
+      <option name="closed" value="true" />
+      <created>1741197818010</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1741197818011</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="Changes in preprocessing classes." />
+    <option name="LAST_COMMIT_MESSAGE" value="Changes in preprocessing classes." />
+  </component>
+  <component name="com.intellij.coverage.CoverageDataManagerImpl">
+    <SUITE FILE_PATH="coverage/PlantTraits2024$test_file_reading.coverage" NAME="test_file_reading Coverage Results" MODIFIED="1741120793379" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/notebooks" />
+  </component>
+</project>

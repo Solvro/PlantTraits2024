@@ -27,7 +27,9 @@ class PlantTraitsDataset(Dataset):
         super().__init__()
         self._preprocessors = {} if preprocessors is None else preprocessors
         self.is_train = preprocessors is None
-        self.data = pd.read_csv(TRAIN_CSV_FILE if self.is_train else TEST_CSV_FILE, index_col='id')
+        self.data = pd.read_csv(
+            TRAIN_CSV_FILE if self.is_train else TEST_CSV_FILE, index_col='id'
+        )  # Musi być bo testowa jest przekazywana tutaj
 
         self.imgs_folder = TRAIN_IMAGES_FOLDER if self.is_train else TEST_IMAGES_FOLDER
         self.imgs_paths = {int(p.split('.')[0]): self.imgs_folder / p for p in os.listdir(self.imgs_folder)}
@@ -45,7 +47,7 @@ class PlantTraitsDataset(Dataset):
             }
         else:
             for key, preprocessor in self._preprocessors.items():
-                if key != 'img':
+                if key not in ['img', 'mean']:
                     preprocessor.prepare_data(self.data).transform_preprocessing(
                         self.data
                     )  # Tutaj też przekazuje data, ale to będzie typowo test i tylko prepare
@@ -57,7 +59,7 @@ class PlantTraitsDataset(Dataset):
         return len(self.data)
 
     def __getitem__(self, idx):
-        true_idx = self.data.index[idx]
+        true_idx = self.data.index[idx]  # Ze względu na ID
         row = self.data.loc[true_idx]
         img = self._preprocessors['img'].transform(self.imgs_paths[true_idx])
         # transformacje są wykonane w miejscu na danych więc tylko trzeba odpowiednie kolumny wybrać

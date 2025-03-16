@@ -39,8 +39,7 @@ class SoilPreprocessing:
 
     def transform_preprocessing(self, data):  # Wspólny dla testowych i treningowych
         """
-        The use of common transformations, as well as the use of previously learned
-         parameters to process a single line (sample).
+        The use of common transformations, as well as the use of previously learned parameters.
 
         Perform type conversion (e.g., convert values from Pandas Series to floating-point numbers).
         Normalize or scale the data using parameters learned earlier on the training set.

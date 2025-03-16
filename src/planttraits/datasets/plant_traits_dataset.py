@@ -45,7 +45,7 @@ class PlantTraitsDataset(Dataset):
             }
         else:
             for key, preprocessor in self._preprocessors.items():
-                if key != 'img':
+                if key not in ['img', 'mean']:
                     preprocessor.prepare_data(self.data).transform_preprocessing(
                         self.data
                     )  # Tutaj też przekazuje data, ale to będzie typowo test i tylko prepare

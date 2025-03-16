@@ -12,22 +12,11 @@ class MeanPreprocessing:
     ):
         self.csv_file = data
         # filter only necessary columns
-        self.prepare_data(self.csv_file)._fit_preprocessing(self.csv_file).transform_preprocessing(self.csv_file)
+        self._fit_transform_preprocessing(self.csv_file)
 
-    def prepare_data(self, data):
-        """
-        Unifying and “cleaning” the data, which makes sense to do regardless
-         of whether the data comes from a training or test collection.
-
-        Deleting unnecessary columns or rows for both train and test.
-        Unification data types ex. conversion to appropriate num-categorical types.
-        Standardization of format ex. size of letters, deleting spaces.
-        Other cleansing operations, which don't rely on "learning parameters", only on transforming
-        raw data to concise format.
-        """
-        return self
-
-    def _fit_preprocessing(self, data):  # Tylko treningowe, zastosowanie fit i scalera i wyliczanie wartosci tylko raz
+    def _fit_transform_preprocessing(
+        self, data
+    ):  # Tylko treningowe, zastosowanie fit i scalera i wyliczanie wartosci tylko raz
         """
         Calculate parameters (e.g., mean, variance, coding maps, PCA matrix, etc.)
         that are needed for subsequent data transformation.
@@ -37,19 +26,6 @@ class MeanPreprocessing:
         Computation of reduction dimensionality parameters which are learning on data distribution.
         """
         return self
-
-    def transform_preprocessing(self, data):  # Wspólny dla testowych i treningowych
-        """
-        The use of common transformations, as well as the use of previously learned parameters
-         to process a single line (sample).
-
-        Perform type conversion (e.g., converrowt values from Pandas Series to floating-point numbers).
-        Normalize or scale the data using parameters learned earlier on the training set.
-        Extract or calculate additional features from existing data.
-        Apply possible augmentation operations (if working with images and want to introduce
-        random transformations for the training data).
-        """
-        pass
 
     def select(self, row: pd.Series) -> torch.Tensor:
         mean = torch.tensor(row[TARGET_COLUMN_NAMES].values, dtype=DTYPE)

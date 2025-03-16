@@ -10,8 +10,6 @@ class WorldClimBioPreprocessing:
         data,  # add more parameters if necessary
     ):
         self.csv_file = data
-        # list of removed sample indexes (don't delete it nor set to None if not used)
-        self.drop_idxs = []
         # filter only necessary columns
         self.prepare_data(self.csv_file)._fit_preprocessing(self.csv_file).transform_preprocessing(self.csv_file)
 

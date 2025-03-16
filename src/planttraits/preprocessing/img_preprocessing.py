@@ -1,5 +1,3 @@
-import os
-
 import torch
 
 from planttraits.utils import DTYPE
@@ -9,30 +7,12 @@ from torchvision.io import read_image
 class ImagePreprocessing:
     def __init__(
         self,
-        imgs_folder,  # add more parameters if necessary
+        imgs_paths,  # add more parameters if necessary
     ):
-        self.imgs_paths = None
-        self.imgs_folder = imgs_folder  # To będa wczytywane zawsze treningowe.
-        # do not remove any image path from the list
-        # self.imgs_paths = {int(p.split('.')[0]): p for p in os.listdir(self.imgs_folder)}
-        # list of removed sample indexes from imgs_paths (don't delete it nor set to None if not used)
-        self.drop_idxs = []
-        self.prepare_data(self.imgs_folder)
+        # zdjęcia treningowe
+        self.imgs_paths = imgs_paths
+        # To będa wczytywane zawsze treningowe.
         self._fit_preprocessing()
-
-    def prepare_data(self, data):
-        self.imgs_paths = {int(p.split('.')[0]): p for p in os.listdir(self.imgs_folder)}
-        """
-        Unifying and “cleaning” the data, which makes sense to do regardless of whether
-         the data comes from a training or test collection.
-
-        Deleting unnecessary columns or rows for both train and test.
-        Unification data types ex. conversion to appropriate num-categorical types.
-        Standardization of format ex. size of letters, deleting spaces.
-        Other cleansing operations, which don't rely on "learning parameters", only on transforming
-        raw data to concise format.
-        """
-        pass
 
     def _fit_preprocessing(
         self,
@@ -47,7 +27,9 @@ class ImagePreprocessing:
         """
         pass
 
-    def _transform_preprocessing(self, idx):  # Wspólny dla testowych i treningowych
+    def _transform_preprocessing(self, image):  # Wspólny dla testowych i treningowych
+        # quick rescaling for testing purposes
+        image = image / 255.0
         """
         The use of common transformations, as well as the use of previously learned parameters
          to process a single line (sample).
@@ -58,16 +40,13 @@ class ImagePreprocessing:
         Apply possible augmentation operations (if working with images and want to introduce random
         transformations for the training data).
         """
-        pass
+        return torch.tensor(image, dtype=DTYPE)
 
-    def transform(self, idx) -> torch.Tensor:
-        self._transform_preprocessing(idx)  # Tutaj wedle uznania, w jaki sposób użycie tego
-        img_path = self.imgs_folder / self.imgs_paths[idx]
+    def transform(self, img_path) -> torch.Tensor:
         image = read_image(img_path)
-        # quick rescaling for testing purposes
-        image = image / 255.0
+        image = self._transform_preprocessing(image)  # Tutaj wedle uznania, w jaki sposób użycie tego
 
         # here perform some transformations on a single image
         # you can use functions from here: https://pytorch.org/vision/0.11/transforms.html
 
-        return torch.tensor(image, dtype=DTYPE)
+        return image

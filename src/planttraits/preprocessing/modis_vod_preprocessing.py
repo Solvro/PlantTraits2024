@@ -10,8 +10,6 @@ class ModisVodPreprocessing:
         data,  # add more parameters if necessary
     ):
         self.csv_file = data
-        # list of removed sample indexes (don't delete it nor set to None if not used)
-        self.drop_idxs = []
         # filter only necessary columns
         # Nie potrzebujemy warunku is_train ani tego argumentu,
         # skoro tworzymy tylko raz te instancje preprocessingów.

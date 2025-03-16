@@ -11,8 +11,6 @@ class MeanPreprocessing:
         data,  # add more parameters if necessary
     ):
         self.csv_file = data
-        # list of removed sample indexes (don't delete it nor set to None if not used)
-        self.drop_idxs = []
         # filter only necessary columns
         self.prepare_data(self.csv_file)._fit_preprocessing(self.csv_file).transform_preprocessing(self.csv_file)
 
@@ -59,3 +57,7 @@ class MeanPreprocessing:
         std = torch.tensor(np.zeros_like(row[STD_COLUMN_NAMES].values), dtype=DTYPE)
         mean = torch.normal(mean, std)
         return mean, std
+
+    def reverse_transform(self, preds: torch.Tensor) -> torch.Tensor:
+        # transform means back to the original scale (reverse log operations etc.) but don't remove any rows
+        return preds

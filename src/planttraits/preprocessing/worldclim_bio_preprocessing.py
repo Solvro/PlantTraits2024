@@ -8,14 +8,14 @@ from sklearn.preprocessing import RobustScaler
 class WorldClimBioPreprocessing:
     def __init__(
         self,
-        data,  # add more parameters if necessary
+        data,
     ):
-        self.csv_file = data.iloc[:, 1:7]
-        # filter only necessary columns
-        self.scaler = RobustScaler()
-        self.prepare_data(self.csv_file)._fit_preprocessing(self.csv_file).transform_preprocessing(self.csv_file)
+        self.selected_columns = [col for col in data.columns if col.startswith('WORLDCLIM_BIO')]
+        self.data = data[self.selected_columns]
+        self.scaler = None
+        self.prepare_data(self.data)._fit_preprocessing(self.data).transform_preprocessing(self.data)
 
-    def prepare_data(self, data):
+    def prepare_data(self, test_data: pd.DataFrame = None):
         """
         Unifying and “cleaning” the data, which makes sense to do regardless of whether
          the data comes from a training or test collection.
@@ -26,7 +26,12 @@ class WorldClimBioPreprocessing:
         Other cleansing operations, which don't rely on "learning parameters", only on transforming
         raw data to concise format.
         """
-        data.drop(data.columns[5], axis=1, inplace=True)
+        if test_data is None:
+            df = self.data
+        else:
+            df = test_data
+
+        df.drop(df.columns[5], axis=1, inplace=True)
         return self
 
     def _fit_preprocessing(self, data):  # Tylko treningowe, zastosowanie fit i scalera i wyliczanie wartosci tylko raz
@@ -38,10 +43,11 @@ class WorldClimBioPreprocessing:
         Teaching coder for categorical variables. (we don't have any I think)
         Computation of reduction dimensionality parameters which are learning on data distribution.
         """
+        self.scaler = RobustScaler()
         self.scaler.fit(data)
         return self
 
-    def transform_preprocessing(self, data):  # Wspólny dla testowych i treningowych
+    def transform_preprocessing(self, test_data: pd.DataFrame = None):  # Wspólny dla testowych i treningowych
         """
         The use of common transformations, as well as the use of previously learned parameters.
 
@@ -51,10 +57,16 @@ class WorldClimBioPreprocessing:
         Apply possible augmentation operations (if working with images and want to introduce
          random transformations for the training data).
         """
-        scaled_data = self.scaler.transform(data)
-        self.csv_file = pd.DataFrame(scaled_data, columns=data.columns)
+        if test_data is None:
+            df = self.data
+        else:
+            df = test_data
+
+        scaled_array = self.scaler.transform(df[self.selected_columns])
+        df.loc[:, self.selected_columns] = pd.DataFrame(scaled_array, columns=self.selected_columns, index=df.index)
         return self
 
     def select(self, row: pd.Series) -> torch.Tensor:
         # row = ... # filter on columns
+        row = row[self.selected_columns]
         return torch.tensor(row.values, dtype=DTYPE)

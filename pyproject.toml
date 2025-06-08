@@ -31,7 +31,6 @@ jupyter = [
     "seaborn ~= 0.12",
     "plotly ~= 5.14",
     "torchsummary==1.5.1",
-    "shorch",
     "transformers ~= 4.47.1",
     "evaluate ~= 0.4.3",
     "transformers[torch]",

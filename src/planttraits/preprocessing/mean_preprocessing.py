@@ -11,23 +11,28 @@ class MeanPreprocessing:
         data,  # add more parameters if necessary
     ):
         self.csv_file = data
+        
         # filter only necessary columns
-        self._fit_transform_preprocessing(self.csv_file)
+        self.prepare_data(self.csv_file)
 
-    def _fit_transform_preprocessing(
-        self, data
-    ):  # Tylko treningowe, zastosowanie fit i scalera i wyliczanie wartosci tylko raz
-        """
-        Calculate parameters (e.g., mean, variance, coding maps, PCA matrix, etc.)
-        that are needed for subsequent data transformation.
+    def prepare_data(self, data=None):
 
-        Computation of statistics on cleaned data ex. avg, std_dv for scaler.
-        Teaching coder for categorical variables. (we don't have any I think)
-        Computation of reduction dimensionality parameters which are learning on data distribution.
-        """
+        # Drop rows where X4_mean < 0 or > 3
+        to_drop = data[(data['X4_mean'] < 0) | (data['X4_mean'] > 3)].index
+        data.drop(to_drop, inplace=True)
+
+        # Log transform selected columns (excluding X4_mean)
+        self.columns_to_log = [col for col in TARGET_COLUMN_NAMES if col != 'X4_mean']
+        data[self.columns_to_log] = np.log1p(data[self.columns_to_log])
+
+        # Fill missing values in STD columns
+        data[STD_COLUMN_NAMES] = data[STD_COLUMN_NAMES].fillna(data[STD_COLUMN_NAMES].mean())
+
         return self
 
+
     def select(self, row: pd.Series) -> torch.Tensor:
+        
         mean = torch.tensor(row[TARGET_COLUMN_NAMES].values, dtype=DTYPE)
         # even if you decide not to use std, still don't delete the line below
         std = torch.tensor(np.zeros_like(row[STD_COLUMN_NAMES].values), dtype=DTYPE)
@@ -35,5 +40,15 @@ class MeanPreprocessing:
         return mean, std
 
     def reverse_transform(self, preds: torch.Tensor) -> torch.Tensor:
-        # transform means back to the original scale (reverse log operations etc.) but don't remove any rows
-        return preds
+        
+        # Move tensor to CPU to convert it to a NumPy array
+        preds_np = preds.cpu().numpy()
+    
+        # Convert to DataFrame
+        df_preds = pd.DataFrame(preds_np, columns=TARGET_COLUMN_NAMES)
+
+        # Apply inverse of log1p to the columns that were log-transformed previously
+        df_preds[self.columns_to_log] = np.expm1(df_preds[self.columns_to_log])
+
+        # Convert DataFrame back to a torch tensor
+        return torch.tensor(df_preds.values, dtype=DTYPE)

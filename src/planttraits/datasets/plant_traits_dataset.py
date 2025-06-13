@@ -12,7 +12,7 @@ from planttraits.config import (
 from planttraits.preprocessing.img_preprocessing import ImagePreprocessing
 from planttraits.preprocessing.mean_preprocessing import MeanPreprocessing
 from planttraits.preprocessing.modis_vod_preprocessing import ModisVodPreprocessing
-from planttraits.preprocessing.soli_preprocessing import SoilPreprocessing
+from planttraits.preprocessing.soil_preprocessing import SoilPreprocessing
 from planttraits.preprocessing.worldclim_bio_preprocessing import (
     WorldClimBioPreprocessing,
 )
@@ -35,20 +35,23 @@ class PlantTraitsDataset(Dataset):
         if self.is_train:
             # Tutaj też implicitly dokona się prepare_data i fit_preprocessing
             self._preprocessors = {
-                'img': ImagePreprocessing(
-                    self.imgs_paths
-                ),  # Tutaj nie nie chciałem ingerować za bardzo w zdjęcia, więc przekazuję imgs_folder
                 'modis_vod': ModisVodPreprocessing(self.data),  # tutaj im przekazuje data, to będzie train zawsze
                 'soil': SoilPreprocessing(self.data),
                 'worldclimbio': WorldClimBioPreprocessing(self.data),
                 'mean': MeanPreprocessing(self.data),
             }
+            self.img_preprocessor = ImagePreprocessing(
+                self.imgs_paths
+            )
         else:
             for key, preprocessor in self._preprocessors.items():
-                if key not in ['img', 'mean']:
+                if key != 'mean':
                     preprocessor.prepare_data(self.data).transform_preprocessing(
                         self.data
                     )  # Tutaj też przekazuje data, ale to będzie typowo test i tylko prepare
+                self.img_preprocessor = ImagePreprocessing(
+                    self.imgs_paths, is_train=False
+                )
 
     def return_preprocessors(self):
         return self._preprocessors

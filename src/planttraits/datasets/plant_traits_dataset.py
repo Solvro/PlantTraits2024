@@ -62,7 +62,7 @@ class PlantTraitsDataset(Dataset):
     def __getitem__(self, idx):
         true_idx = self.data.index[idx]
         row = self.data.loc[true_idx]
-        img = self._preprocessors['img'].transform(self.imgs_paths[true_idx])
+        img = self.img_preprocessor.transform(self.imgs_paths[true_idx])
         # transformacje są wykonane w miejscu na danych więc tylko trzeba odpowiednie kolumny wybrać
         modisvod_row = self._preprocessors['modis_vod'].select(row)
         soil_row = self._preprocessors['soil'].select(row)

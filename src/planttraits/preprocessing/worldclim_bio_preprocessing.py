@@ -10,8 +10,8 @@ class WorldClimBioPreprocessing:
         self,
         data,
     ):
-        self.selected_columns = [col for col in data.columns if col.startswith('WORLDCLIM_BIO')]
-        self.data = data[self.selected_columns]
+        self.selected_columns = None
+        self.data = data
         self.scaler = None
         self.prepare_data(self.data)._fit_preprocessing(self.data).transform_preprocessing(self.data)
 
@@ -43,8 +43,11 @@ class WorldClimBioPreprocessing:
         Teaching coder for categorical variables. (we don't have any I think)
         Computation of reduction dimensionality parameters which are learning on data distribution.
         """
+        self.selected_columns = [col for col in data.columns if col.startswith('WORLDCLIM_BIO')]
+        self.data = data[self.selected_columns]
+
         self.scaler = RobustScaler()
-        self.scaler.fit(data)
+        self.scaler.fit(self.data)
         return self
 
     def transform_preprocessing(self, test_data: pd.DataFrame = None):  # Wspólny dla testowych i treningowych

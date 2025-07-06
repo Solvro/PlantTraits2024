@@ -49,9 +49,9 @@ class PlantTraitsDataset(Dataset):
                     preprocessor.prepare_data(self.data).transform_preprocessing(
                         self.data
                     )  # Tutaj też przekazuje data, ale to będzie typowo test i tylko prepare
-                self.img_preprocessor = ImagePreprocessing(
-                    self.imgs_paths, is_train=False
-                )
+            self.img_preprocessor = ImagePreprocessing(
+                self.imgs_paths, is_train=False
+            )
 
     def return_preprocessors(self):
         return self._preprocessors

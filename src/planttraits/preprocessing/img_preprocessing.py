@@ -11,6 +11,7 @@ class ImagePreprocessing:
         
     def _fit_preprocessing(self):
         self.train_transform = transforms.Compose([
+            transforms.RandomCrop(256),
             transforms.RandomHorizontalFlip(p=0.5),
             transforms.RandomVerticalFlip(p=1.0),
             transforms.RandomRotation(degrees=15),

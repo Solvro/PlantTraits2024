@@ -67,7 +67,9 @@ class BaseCNN(nn.Module):
         for lin_layer in self.lin_layers[:-1]:
             x = self.act_fun(lin_layer(x))
         # Po ostatniej warstwie nie dodajemy już funkcji aktywacji bo chcemy, żeby sieć zwracała logit'y
-        x = self.lin_layers[-1](x)
+        if self.lin_layers:
+            x = self.lin_layers[-1](x)
+        # x = self.lin_layers[-1](x)
         return x
 
 

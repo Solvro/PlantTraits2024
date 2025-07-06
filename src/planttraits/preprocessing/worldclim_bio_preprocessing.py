@@ -13,7 +13,7 @@ class WorldClimBioPreprocessing:
         self.selected_columns = None
         self.data = data
         self.scaler = None
-        self.prepare_data(self.data)._fit_preprocessing(self.data).transform_preprocessing(self.data)
+        self.prepare_data()._fit_preprocessing().transform_preprocessing()
 
     def prepare_data(self, test_data: pd.DataFrame = None):
         """
@@ -34,7 +34,7 @@ class WorldClimBioPreprocessing:
         df.drop(df.columns[5], axis=1, inplace=True)
         return self
 
-    def _fit_preprocessing(self, data):  # Tylko treningowe, zastosowanie fit i scalera i wyliczanie wartosci tylko raz
+    def _fit_preprocessing(self):  # Tylko treningowe, zastosowanie fit i scalera i wyliczanie wartosci tylko raz
         """
         Calculate parameters (e.g., mean, variance, coding maps, PCA matrix, etc.)
          that are needed for subsequent data transformation.
@@ -43,11 +43,11 @@ class WorldClimBioPreprocessing:
         Teaching coder for categorical variables. (we don't have any I think)
         Computation of reduction dimensionality parameters which are learning on data distribution.
         """
-        self.selected_columns = [col for col in data.columns if col.startswith('WORLDCLIM_BIO')]
-        self.data = data[self.selected_columns]
+        self.selected_columns = [col for col in self.data.columns if col.startswith('WORLDCLIM_BIO')]
+        X = self.data[self.selected_columns]
 
         self.scaler = RobustScaler()
-        self.scaler.fit(self.data)
+        self.scaler.fit(X)
         return self
 
     def transform_preprocessing(self, test_data: pd.DataFrame = None):  # Wspólny dla testowych i treningowych
@@ -70,6 +70,5 @@ class WorldClimBioPreprocessing:
         return self
 
     def select(self, row: pd.Series) -> torch.Tensor:
-        # row = ... # filter on columns
         row = row[self.selected_columns]
         return torch.tensor(row.values, dtype=DTYPE)

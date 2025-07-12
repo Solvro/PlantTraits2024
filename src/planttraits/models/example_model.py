@@ -30,14 +30,14 @@ conv_layers = [
     nn.AdaptiveAvgPool2d(output_size=1)
 ]
 
-efficientnet_b2 = torchvision.models.efficientnet_b2() # too heavy
+efficientnet_b2 = torchvision.models.efficientnet_b2(weights='IMAGENET1K_V1') # too heavy
 
 custom_backbone_net = BaseCNN(conv_layers, linear_layers=[])
 
-for param in efficientnet_b2.parameters():
-    param.requires_grad_(False)
+# for param in efficientnet_b2.parameters():
+#     param.requires_grad_(False)
 
-kwargs = {'n_feat': 122, 'backbone_net': custom_backbone_net, 'criteria': mean_squared_error}
+kwargs = {'n_feat': 122, 'backbone_net': efficientnet_b2, 'criteria': mean_squared_error}
 
 
 class PTNN(pl.LightningModule):
@@ -57,6 +57,9 @@ class PTNN(pl.LightningModule):
             nn.Linear(512, 256),
             nn.LayerNorm(256),
         )
+
+        for param in backbone_net.parameters():
+            param.requires_grad_(False)
 
         self.img_encoder = nn.Sequential(
             backbone_net, nn.Linear(512, 256), nn.LayerNorm(256)

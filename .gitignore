@@ -182,3 +182,4 @@ notebooks/wandb
 presentations/*
 notebooks/lightning_logs/
 lightning_logs/
+tnsr-logs/*

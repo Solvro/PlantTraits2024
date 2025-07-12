@@ -9,6 +9,8 @@ root_dir = Path(os.getenv('ROOT_DIR'))
 
 TEST_IMAGES_FOLDER = root_dir / os.getenv('TEST_IMAGES_FOLDER')
 TRAIN_IMAGES_FOLDER = root_dir / os.getenv('TRAIN_IMAGES_FOLDER')
+VAL_IMAGES_FOLDER = root_dir / os.getenv('VAL_IMAGES_FOLDER')
 TEST_CSV_FILE = root_dir / os.getenv('TEST_CSV_FILE')
 TRAIN_CSV_FILE = root_dir / os.getenv('TRAIN_CSV_FILE')
+VAL_CSV_FILE = root_dir / os.getenv('VAL_CSV_FILE')
 # META_CSV_FILE = root_dir / os.getenv('META_CSV_FILE')

@@ -5,7 +5,7 @@ import torch
 import torch.nn as nn
 import torchvision
 
-from src.planttraits.notebook_utils import ConvLayer, BaseCNN
+from planttraits.notebook_utils import ConvLayer, BaseCNN
 from torchmetrics.functional import mean_squared_error, r2_score
 from torchvision import transforms
 
@@ -76,15 +76,13 @@ class PTNN(pl.LightningModule):
         predictions, std_row, mean_row = self.run_forward(batch)
         loss = self.criteria(predictions, mean_row)
         self.log('train_loss', loss, prog_bar=True, sync_dist=True, on_epoch=True)
-        self.log('train_score', r2_score(predictions, mean_row), prog_bar=True, sync_dist=True, on_epoch=True)
+        self.log('train_r2_score', r2_score(predictions, mean_row), prog_bar=True, sync_dist=True, on_epoch=True)
         return {'loss': loss}
 
-    def validation_step(self, batch, batch_idx):
+    def test_step(self, batch, batch_idx):
         predictions, std_row, mean_row = self.run_forward(batch)
         loss = self.criteria(predictions, mean_row)
-        self.log('val_loss', loss, prog_bar=True, sync_dist=True, on_epoch=True)
-        self.log('val_score', r2_score(predictions, mean_row), prog_bar=True, sync_dist=True, on_epoch=True)
-        return {'val_loss': loss}
+        return loss
 
     def predict_step(self, batch, batch_idx, dataloader_idx=0):
         predictions, *_ = self.run_forward(batch)

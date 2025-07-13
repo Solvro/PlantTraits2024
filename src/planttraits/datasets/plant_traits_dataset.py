@@ -1,4 +1,5 @@
 import os
+from typing import List
 
 import pandas as pd
 import torch
@@ -9,6 +10,7 @@ from planttraits.config import (
     TRAIN_CSV_FILE,
     TRAIN_IMAGES_FOLDER,
 )
+from planttraits.utils import TARGET_COLUMNS_MAPPING, SUBMISSION_COLUMNS, TARGET_COLUMN_NAMES
 from planttraits.preprocessing.img_preprocessing import ImagePreprocessing
 from planttraits.preprocessing.mean_preprocessing import MeanPreprocessing
 from planttraits.preprocessing.modis_vod_preprocessing import ModisVodPreprocessing
@@ -75,3 +77,13 @@ class PlantTraitsDataset(Dataset):
 
     def transform_predictions(self, preds: torch.Tensor) -> torch.Tensor:
         return self._preprocessors['mean'].reverse_transform(preds)
+
+    def save_submission(self, predictions: List[torch.Tensor], path: str):
+        predictions = self.transform_predictions(torch.concat(predictions))
+        submission = pd.DataFrame(predictions, index=self.data.index, 
+                                  columns=TARGET_COLUMN_NAMES).reset_index().rename({'index': 'id'}, axis=1)
+        submission = submission.rename(TARGET_COLUMNS_MAPPING, axis=1)
+        submission = submission[SUBMISSION_COLUMNS]
+        submission.to_csv(path, index=False)
+        return submission
+        

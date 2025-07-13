@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 
 setup(
     name="planttraits",
-    version="0.0.1",
+    version="0.0.4",
     description="Codebase for Plant Traits Challenge",
     python_requires=">=3.8,<3.12",
     packages=find_packages(where="src"),

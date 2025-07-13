@@ -9,6 +9,8 @@ from planttraits.config import (
     TEST_IMAGES_FOLDER,
     TRAIN_CSV_FILE,
     TRAIN_IMAGES_FOLDER,
+    VAL_CSV_FILE,
+    VAL_IMAGES_FOLDER
 )
 from planttraits.utils import TARGET_COLUMNS_MAPPING, SUBMISSION_COLUMNS, TARGET_COLUMN_NAMES
 from planttraits.preprocessing.img_preprocessing import ImagePreprocessing
@@ -25,13 +27,15 @@ class PlantTraitsDataset(Dataset):
     def __init__(
         self,
         preprocessors=None,  # add here more arguments if needed
+        eval=False
     ):
         super().__init__()
-        self._preprocessors = {} if preprocessors is None else preprocessors
+        self._preprocessors = {} if preprocessors is None else dict(preprocessors)
+        self.is_eval = eval
         self.is_train = preprocessors is None
-        self.data = pd.read_csv(TRAIN_CSV_FILE if self.is_train else TEST_CSV_FILE, index_col='id')
+        self.data = pd.read_csv(TRAIN_CSV_FILE if self.is_train else (VAL_CSV_FILE if eval else TEST_CSV_FILE), index_col='id')
 
-        self.imgs_folder = TRAIN_IMAGES_FOLDER if self.is_train else TEST_IMAGES_FOLDER
+        self.imgs_folder = TRAIN_IMAGES_FOLDER if self.is_train else (VAL_IMAGES_FOLDER if eval else TEST_IMAGES_FOLDER)
         self.imgs_paths = {int(p.split('.')[0]): self.imgs_folder / p for p in os.listdir(self.imgs_folder)}
 
         if self.is_train:
@@ -54,6 +58,8 @@ class PlantTraitsDataset(Dataset):
             self.img_preprocessor = ImagePreprocessing(
                 self.imgs_paths, is_train=False
             )
+            if self.is_eval:
+                self._preprocessors['mean'] = MeanPreprocessing(self.data)
 
     def return_preprocessors(self):
         return self._preprocessors
@@ -70,7 +76,7 @@ class PlantTraitsDataset(Dataset):
         soil_row = self._preprocessors['soil'].select(row)
         worldclimbio_row = self._preprocessors['worldclimbio'].select(row)
         mean_row, std_row = (
-            self._preprocessors['mean'].select(row) if self.is_train else (torch.zeros(1), torch.zeros(1))
+            self._preprocessors['mean'].select(row) if (self.is_train or self.is_eval) else (torch.zeros(1), torch.zeros(1))
         )
 
         return img, modisvod_row, soil_row, worldclimbio_row, std_row, mean_row

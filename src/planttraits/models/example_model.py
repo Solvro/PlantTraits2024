@@ -79,6 +79,13 @@ class PTNN(pl.LightningModule):
         self.log('train_r2_score', r2_score(predictions, mean_row), prog_bar=True, sync_dist=True, on_epoch=True)
         return {'loss': loss}
 
+    def validation_step(self, batch, batch_idx):
+        predictions, std_row, mean_row = self.run_forward(batch)
+        loss = self.criteria(predictions, mean_row)
+        self.log('val_loss', loss, prog_bar=True, sync_dist=True, on_epoch=True)
+        self.log('val_r2_score', r2_score(predictions, mean_row), prog_bar=True, sync_dist=True, on_epoch=True)
+        return {'val_loss': loss}
+
     def test_step(self, batch, batch_idx):
         predictions, std_row, mean_row = self.run_forward(batch)
         loss = self.criteria(predictions, mean_row)
